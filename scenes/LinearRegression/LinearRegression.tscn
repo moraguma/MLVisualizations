@@ -1,0 +1,157 @@
+[gd_scene load_steps=12 format=3 uid="uid://du537llw752ii"]
+
+[ext_resource type="PackedScene" uid="uid://biomultdfiwkt" path="res://scenes/LinearRegression/Draggable.tscn" id="1_m3xpi"]
+[ext_resource type="PackedScene" uid="uid://rfro56od1488" path="res://scenes/LinearRegression/GraphBase.tscn" id="1_oj5lf"]
+[ext_resource type="Script" path="res://scenes/LinearRegression/scripts/LinearRegression.gd" id="1_ubjel"]
+[ext_resource type="Texture2D" uid="uid://c6tebqdji2apn" path="res://resources/sprites/point.png" id="3_7rui6"]
+[ext_resource type="Shader" path="res://resources/shaders/ErrorMap.gdshader" id="3_blx4n"]
+[ext_resource type="Texture2D" uid="uid://bwyt4343d8gr3" path="res://resources/sprites/Cross.png" id="3_n6lvd"]
+[ext_resource type="Theme" uid="uid://lydeqvm8e8ih" path="res://resources/themes/main.tres" id="6_8t06b"]
+
+[sub_resource type="Gradient" id="Gradient_q86k7"]
+interpolation_color_space = 1
+colors = PackedColorArray(0.89, 0.1691, 0.26522, 1, 0.1428, 0.34034, 0.84, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_cgtvt"]
+gradient = SubResource("Gradient_q86k7")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_0hnwg"]
+shader = ExtResource("3_blx4n")
+shader_parameter/minA = -1.0
+shader_parameter/maxA = 1.0
+shader_parameter/minB = 0.25
+shader_parameter/maxB = 0.75
+shader_parameter/points = PackedVector2Array(0, 10, 0, 20, 0, 0, 0, 350, 0, 250, 0, 0, 0, 0, 0, 250, 0, 0, 0, 0, 0, 0)
+shader_parameter/maxError = 100.0
+shader_parameter/gradient = SubResource("GradientTexture1D_cgtvt")
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_n2aw6"]
+radius = 25.0799
+
+[node name="Main" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+script = ExtResource("1_ubjel")
+
+[node name="Interactibles" type="HBoxContainer" parent="."]
+layout_mode = 0
+offset_top = 115.0
+offset_right = 1920.0
+offset_bottom = 765.0
+alignment = 1
+
+[node name="GraphBase" parent="Interactibles" instance=ExtResource("1_oj5lf")]
+layout_mode = 2
+max_down = 1.0
+max_left = 1.0
+
+[node name="Adjust" parent="Interactibles" instance=ExtResource("1_oj5lf")]
+layout_mode = 2
+legend_down = "A"
+min_down = -5.0
+max_down = 5.0
+min_left = -1.0
+max_left = 2.0
+
+[node name="Base" parent="Interactibles/Adjust" index="0"]
+material = SubResource("ShaderMaterial_0hnwg")
+
+[node name="LegendDown" parent="Interactibles/Adjust/Base" index="0"]
+text = "A"
+
+[node name="MinDown" parent="Interactibles/Adjust/Base" index="1"]
+text = "-5.0"
+
+[node name="MaxDown" parent="Interactibles/Adjust/Base" index="2"]
+text = "5.0"
+
+[node name="MinLeft" parent="Interactibles/Adjust/Base" index="4"]
+text = "-1.0"
+
+[node name="MaxLeft" parent="Interactibles/Adjust/Base" index="5"]
+text = "2.0"
+
+[node name="Points" type="Node2D" parent="."]
+position = Vector2(385, 690)
+
+[node name="1" type="Sprite2D" parent="Points"]
+position = Vector2(368, -208)
+texture = ExtResource("3_7rui6")
+
+[node name="2" type="Sprite2D" parent="Points"]
+position = Vector2(368, -208)
+texture = ExtResource("3_7rui6")
+
+[node name="3" type="Sprite2D" parent="Points"]
+position = Vector2(368, -208)
+texture = ExtResource("3_7rui6")
+
+[node name="4" type="Sprite2D" parent="Points"]
+position = Vector2(368, -208)
+texture = ExtResource("3_7rui6")
+
+[node name="5" type="Sprite2D" parent="Points"]
+position = Vector2(368, -208)
+texture = ExtResource("3_7rui6")
+
+[node name="6" type="Sprite2D" parent="Points"]
+position = Vector2(368, -208)
+texture = ExtResource("3_7rui6")
+
+[node name="7" type="Sprite2D" parent="Points"]
+position = Vector2(368, -208)
+texture = ExtResource("3_7rui6")
+
+[node name="8" type="Sprite2D" parent="Points"]
+position = Vector2(368, -208)
+texture = ExtResource("3_7rui6")
+
+[node name="9" type="Sprite2D" parent="Points"]
+position = Vector2(368, -208)
+texture = ExtResource("3_7rui6")
+
+[node name="10" type="Sprite2D" parent="Points"]
+position = Vector2(368, -208)
+texture = ExtResource("3_7rui6")
+
+[node name="LinearRegression" type="Line2D" parent="."]
+position = Vector2(385, 690)
+default_color = Color(0.497538, 0.177624, 0.716418, 1)
+begin_cap_mode = 2
+end_cap_mode = 2
+antialiased = true
+
+[node name="Adjuster" parent="." instance=ExtResource("1_m3xpi")]
+position = Vector2(1285, 440)
+limited = true
+limit_origin = Vector2(1035, 190)
+limit_size = Vector2(500, 500)
+
+[node name="Sprite" parent="Adjuster" index="0"]
+modulate = Color(1, 1, 1, 0.658824)
+texture = ExtResource("3_n6lvd")
+
+[node name="Hitbox" parent="Adjuster" index="1"]
+shape = SubResource("CircleShape2D_n2aw6")
+
+[node name="Buttons" type="HBoxContainer" parent="."]
+layout_mode = 0
+offset_top = 900.0
+offset_right = 1920.0
+offset_bottom = 992.0
+alignment = 1
+
+[node name="Generate" type="Button" parent="Buttons"]
+custom_minimum_size = Vector2(256, 0)
+layout_mode = 2
+focus_mode = 0
+theme = ExtResource("6_8t06b")
+text = "GENERATE"
+
+[editable path="Interactibles/Adjust"]
+[editable path="Adjuster"]

@@ -1,0 +1,126 @@
+[gd_scene load_steps=3 format=3 uid="uid://rfro56od1488"]
+
+[ext_resource type="Script" path="res://scenes/LinearRegression/scripts/GraphBase.gd" id="1_7uqbe"]
+[ext_resource type="Theme" uid="uid://lydeqvm8e8ih" path="res://resources/themes/main.tres" id="2_vp3df"]
+
+[node name="GraphBase" type="Control"]
+custom_minimum_size = Vector2(650, 650)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+mouse_filter = 1
+script = ExtResource("1_7uqbe")
+
+[node name="Base" type="ColorRect" parent="."]
+custom_minimum_size = Vector2(512, 512)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -256.0
+offset_top = -256.0
+offset_right = 256.0
+offset_bottom = 256.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+color = Color(0.0991069, 0.131421, 0.229837, 1)
+
+[node name="LegendDown" type="Label" parent="Base"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -512.0
+offset_top = 24.0
+offset_bottom = 68.0
+grow_horizontal = 0
+grow_vertical = 0
+theme = ExtResource("2_vp3df")
+text = "A
+"
+horizontal_alignment = 1
+
+[node name="MinDown" type="Label" parent="Base"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -512.0
+offset_right = -472.0
+offset_bottom = 44.0
+grow_horizontal = 0
+grow_vertical = 0
+theme = ExtResource("2_vp3df")
+text = "0.0
+"
+
+[node name="MaxDown" type="Label" parent="Base"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -40.0
+offset_bottom = 44.0
+grow_horizontal = 0
+grow_vertical = 0
+theme = ExtResource("2_vp3df")
+text = "1.0"
+horizontal_alignment = 2
+
+[node name="LegendLeft" type="Label" parent="Base"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -567.0
+offset_top = -512.0
+offset_right = -512.0
+grow_horizontal = 0
+grow_vertical = 0
+theme = ExtResource("2_vp3df")
+text = "B
+"
+vertical_alignment = 1
+
+[node name="MinLeft" type="Label" parent="Base"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -560.0
+offset_top = -44.0
+offset_right = -520.0
+grow_horizontal = 0
+grow_vertical = 0
+theme = ExtResource("2_vp3df")
+text = "0.0"
+
+[node name="MaxLeft" type="Label" parent="Base"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -560.0
+offset_top = -512.0
+offset_right = -520.0
+offset_bottom = -468.0
+grow_horizontal = 0
+grow_vertical = 0
+theme = ExtResource("2_vp3df")
+text = "1.0"
