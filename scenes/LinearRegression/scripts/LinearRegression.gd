@@ -16,6 +16,7 @@ var rng = RandomNumberGenerator.new()
 @onready var points: Array[Node] = $Points.get_children()
 @onready var linear_regression: Line2D = $LinearRegression
 @onready var adjuster: Draggable = $Adjuster
+@onready var adjust_base: ColorRect = $Interactibles/Adjust/Base
 
 
 func _ready() -> void:
@@ -52,9 +53,12 @@ func generate_points():
 	for i in range(1, len(limits)):
 		min_x = min(min_x, limits[i][0])
 		max_x = max(max_x, limits[i][0])
+	var point_positions: Array[Vector2] = []
 	for point in points:
 		var x = randf_range(min_x, max_x)
 		point.position = Vector2(x, -a * x - b + rng.randfn(0.0, STD) * NORMAL_DISTRIBUTION_MULTIPLIER)
+		point_positions.append(point.position)
+	adjust_base.material.set_shader_parameter("points", point_positions)
 
 
 ## Given a and b, returns the points that match with the edges of graph
