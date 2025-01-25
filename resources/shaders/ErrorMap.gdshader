@@ -1,6 +1,7 @@
 shader_type canvas_item;
 
 
+uniform vec4 guideColor: source_color;
 uniform sampler2D gradient;
 uniform float minA = -1.0;
 uniform float maxA = 1.0;
@@ -9,9 +10,18 @@ uniform float maxB = 0.75;
 uniform vec2 points[10];
 uniform float maxError = 10000.0;
 
+const float guidePoints[3] = {0.1, 0.4, 0.7};
+uniform float guideTolerance = 0.008;
 
 vec4 sample_grad(float pos) {
-	return texture(gradient, vec2(pow(pos, 0.2), 0.5));
+	vec4 multiplier = vec4(1.0);
+	for (int i = 0; i < 3; i ++) {
+		if (abs(pos - guidePoints[i]) < guideTolerance) {
+			multiplier = guideColor;
+			break;
+		}
+	}
+	return texture(gradient, vec2(pow(pos, 0.2), 0.5)) * multiplier;
 }
 
 

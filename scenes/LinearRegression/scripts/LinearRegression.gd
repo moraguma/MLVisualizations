@@ -17,6 +17,7 @@ var rng = RandomNumberGenerator.new()
 @onready var linear_regression: Line2D = $LinearRegression
 @onready var adjuster: Draggable = $Adjuster
 @onready var adjust_base: ColorRect = $Interactibles/Adjust/Base
+@onready var equation: Label = $Equation
 
 
 func _ready() -> void:
@@ -41,18 +42,20 @@ func _physics_process(delta: float) -> void:
 	var limits = get_limits(a, b)
 	for limit in limits:
 		linear_regression.add_point(limit)
+	update_points(a, b)
+	
+	equation.text = "Y = %.2fX + %.2f" % [a, b / 500]
 
 
 func generate_points():
 	var a = MIN_A + (MAX_A - MIN_A) * randf()
 	var b = (MIN_B + (MAX_B - MIN_B) * randf()) * 500
 	
-	var limits = get_limits(a, b)
-	var min_x = limits[0][0]
-	var max_x = limits[0][0]
-	for i in range(1, len(limits)):
-		min_x = min(min_x, limits[i][0])
-		max_x = max(max_x, limits[i][0])
+	
+	var min_max_x = get_min_max_x(a, b)
+	var min_x = min_max_x[0]
+	var max_x = min_max_x[1] 
+	
 	var point_positions: Array[Vector2] = []
 	for point in points:
 		var x = randf_range(min_x, max_x)
@@ -76,3 +79,24 @@ func get_limits(a: float, b: float) -> Array[Vector2]:
 			if x >= x_limits[0] and x <= x_limits[1]:
 				limits.append(Vector2(x, -y))
 	return limits
+
+
+## Returns min and max x in line
+func get_min_max_x(a: float, b: float) -> Array[float]:
+	var limits = get_limits(a, b)
+	var min_x = limits[0][0]
+	var max_x = limits[0][0]
+	for i in range(1, len(limits)):
+		min_x = min(min_x, limits[i][0])
+		max_x = max(max_x, limits[i][0])
+	return [min_x, max_x]
+
+
+## Updates visualization of points
+func update_points(a: float, b: float) -> void:
+	var min_max_x = get_min_max_x(a, b)
+	var min_x = min_max_x[0]
+	var max_x = min_max_x[1] 
+	
+	for point: Point in points:
+		point.update_dif(point.position[1] + a * point.position[0] + b, point.position[0] >= min_x and point.position[0] <= max_x)

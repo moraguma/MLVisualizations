@@ -1,0 +1,21 @@
+[gd_scene load_steps=5 format=3 uid="uid://63jewjgu007l"]
+
+[ext_resource type="Texture2D" uid="uid://c6tebqdji2apn" path="res://resources/sprites/point.png" id="1_p831m"]
+[ext_resource type="Script" path="res://scenes/LinearRegression/scripts/Point.gd" id="2_qyo78"]
+
+[sub_resource type="Gradient" id="Gradient_wxgv8"]
+interpolation_color_space = 2
+colors = PackedColorArray(0.141176, 0.341176, 0.839216, 1, 0.301961, 0.054902, 0.105882, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_tpmty"]
+gradient = SubResource("Gradient_wxgv8")
+
+[node name="Point" type="Sprite2D"]
+texture = ExtResource("1_p831m")
+script = ExtResource("2_qyo78")
+gradient = SubResource("GradientTexture1D_tpmty")
+
+[node name="Dif" type="Line2D" parent="."]
+points = PackedVector2Array(0, 0, 0, 10)
+width = 6.0
+end_cap_mode = 2

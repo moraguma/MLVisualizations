@@ -3,26 +3,28 @@
 [ext_resource type="PackedScene" uid="uid://biomultdfiwkt" path="res://scenes/LinearRegression/Draggable.tscn" id="1_m3xpi"]
 [ext_resource type="PackedScene" uid="uid://rfro56od1488" path="res://scenes/LinearRegression/GraphBase.tscn" id="1_oj5lf"]
 [ext_resource type="Script" path="res://scenes/LinearRegression/scripts/LinearRegression.gd" id="1_ubjel"]
-[ext_resource type="Texture2D" uid="uid://c6tebqdji2apn" path="res://resources/sprites/point.png" id="3_7rui6"]
 [ext_resource type="Shader" path="res://resources/shaders/ErrorMap.gdshader" id="3_blx4n"]
 [ext_resource type="Texture2D" uid="uid://bwyt4343d8gr3" path="res://resources/sprites/Cross.png" id="3_n6lvd"]
+[ext_resource type="PackedScene" uid="uid://63jewjgu007l" path="res://scenes/LinearRegression/Point.tscn" id="4_oqeib"]
 [ext_resource type="Theme" uid="uid://lydeqvm8e8ih" path="res://resources/themes/main.tres" id="6_8t06b"]
 
 [sub_resource type="Gradient" id="Gradient_q86k7"]
 interpolation_color_space = 1
-colors = PackedColorArray(0.141176, 0.341176, 0.839216, 1, 0.890196, 0.168627, 0.266667, 1)
+colors = PackedColorArray(0.141176, 0.341176, 0.839216, 1, 0.3, 0.054, 0.1073, 1)
 
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_cgtvt"]
 gradient = SubResource("Gradient_q86k7")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_0hnwg"]
 shader = ExtResource("3_blx4n")
+shader_parameter/guideColor = Color(1, 0.68, 0.861333, 1)
 shader_parameter/minA = -1.0
 shader_parameter/maxA = 1.0
 shader_parameter/minB = 0.25
 shader_parameter/maxB = 0.75
 shader_parameter/points = PackedVector2Array(0, -250, 50, -250, 100, -250, 150, -250, 200, -250, 250, -250, 300, -250, 350, -250, 400, -250, 450, -250, 500, -250)
-shader_parameter/maxError = 1e+06
+shader_parameter/maxError = 250000.0
+shader_parameter/guideTolerance = 0.008
 shader_parameter/gradient = SubResource("GradientTexture1D_cgtvt")
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_n2aw6"]
@@ -37,6 +39,17 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 1
 script = ExtResource("1_ubjel")
+
+[node name="Equation" type="Label" parent="."]
+layout_mode = 0
+offset_left = 310.0
+offset_top = 104.0
+offset_right = 960.0
+offset_bottom = 170.0
+theme = ExtResource("6_8t06b")
+theme_override_font_sizes/font_size = 48
+text = "Y = AX + B"
+horizontal_alignment = 1
 
 [node name="Interactibles" type="HBoxContainer" parent="."]
 layout_mode = 0
@@ -79,45 +92,25 @@ text = "2.0"
 [node name="Points" type="Node2D" parent="."]
 position = Vector2(385, 690)
 
-[node name="1" type="Sprite2D" parent="Points"]
-position = Vector2(368, -208)
-texture = ExtResource("3_7rui6")
+[node name="Point" parent="Points" instance=ExtResource("4_oqeib")]
 
-[node name="2" type="Sprite2D" parent="Points"]
-position = Vector2(368, -208)
-texture = ExtResource("3_7rui6")
+[node name="Point2" parent="Points" instance=ExtResource("4_oqeib")]
 
-[node name="3" type="Sprite2D" parent="Points"]
-position = Vector2(368, -208)
-texture = ExtResource("3_7rui6")
+[node name="Point3" parent="Points" instance=ExtResource("4_oqeib")]
 
-[node name="4" type="Sprite2D" parent="Points"]
-position = Vector2(368, -208)
-texture = ExtResource("3_7rui6")
+[node name="Point4" parent="Points" instance=ExtResource("4_oqeib")]
 
-[node name="5" type="Sprite2D" parent="Points"]
-position = Vector2(368, -208)
-texture = ExtResource("3_7rui6")
+[node name="Point5" parent="Points" instance=ExtResource("4_oqeib")]
 
-[node name="6" type="Sprite2D" parent="Points"]
-position = Vector2(368, -208)
-texture = ExtResource("3_7rui6")
+[node name="Point6" parent="Points" instance=ExtResource("4_oqeib")]
 
-[node name="7" type="Sprite2D" parent="Points"]
-position = Vector2(368, -208)
-texture = ExtResource("3_7rui6")
+[node name="Point7" parent="Points" instance=ExtResource("4_oqeib")]
 
-[node name="8" type="Sprite2D" parent="Points"]
-position = Vector2(368, -208)
-texture = ExtResource("3_7rui6")
+[node name="Point8" parent="Points" instance=ExtResource("4_oqeib")]
 
-[node name="9" type="Sprite2D" parent="Points"]
-position = Vector2(368, -208)
-texture = ExtResource("3_7rui6")
+[node name="Point9" parent="Points" instance=ExtResource("4_oqeib")]
 
-[node name="10" type="Sprite2D" parent="Points"]
-position = Vector2(368, -208)
-texture = ExtResource("3_7rui6")
+[node name="Point10" parent="Points" instance=ExtResource("4_oqeib")]
 
 [node name="LinearRegression" type="Line2D" parent="."]
 position = Vector2(385, 690)
