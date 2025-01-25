@@ -1,7 +1,9 @@
-[gd_resource type="Theme" load_steps=4 format=3 uid="uid://lydeqvm8e8ih"]
+[gd_resource type="Theme" load_steps=12 format=3 uid="uid://lydeqvm8e8ih"]
 
 [ext_resource type="StyleBox" uid="uid://bexxaqln53n2j" path="res://resources/themes/StyleBoxes/ButtonBase.tres" id="1_4sxj8"]
 [ext_resource type="FontFile" uid="uid://s4vmui60cyq" path="res://resources/fonts/Schoolbell/Schoolbell-Regular.ttf" id="1_dar4o"]
+[ext_resource type="Texture2D" uid="uid://dacglu8luvqk0" path="res://resources/sprites/check.png" id="2_1y5np"]
+[ext_resource type="Texture2D" uid="uid://coy2ad53eulxb" path="res://resources/sprites/uncheck.png" id="3_fm60f"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_70a03"]
 bg_color = Color(0.498039, 0.176471, 0.717647, 1)
@@ -10,16 +12,39 @@ corner_radius_top_right = 32
 corner_radius_bottom_right = 32
 corner_radius_bottom_left = 32
 
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_7qpec"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_c82t4"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_0toda"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_w0v68"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_fqkae"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_c0iv4"]
+
 [resource]
 default_font = ExtResource("1_dar4o")
 default_font_size = 32
+Button/colors/font_color = Color(1, 1, 1, 1)
 Button/colors/font_outline_color = Color(1, 1, 1, 1)
-Button/constants/outline_size = 4
+Button/constants/outline_size = 6
 Button/font_sizes/font_size = 48
 Button/styles/disabled = ExtResource("1_4sxj8")
 Button/styles/focus = ExtResource("1_4sxj8")
 Button/styles/hover = SubResource("StyleBoxFlat_70a03")
 Button/styles/normal = ExtResource("1_4sxj8")
 Button/styles/pressed = ExtResource("1_4sxj8")
+CheckButton/constants/outline_size = 4
+CheckButton/icons/checked = ExtResource("2_1y5np")
+CheckButton/icons/checked_disabled = ExtResource("2_1y5np")
+CheckButton/icons/unchecked = ExtResource("3_fm60f")
+CheckButton/styles/disabled = SubResource("StyleBoxEmpty_7qpec")
+CheckButton/styles/focus = SubResource("StyleBoxEmpty_c82t4")
+CheckButton/styles/hover = SubResource("StyleBoxEmpty_0toda")
+CheckButton/styles/hover_pressed = SubResource("StyleBoxEmpty_w0v68")
+CheckButton/styles/normal = SubResource("StyleBoxEmpty_fqkae")
+CheckButton/styles/pressed = SubResource("StyleBoxEmpty_c0iv4")
 Label/colors/font_outline_color = Color(1, 1, 1, 1)
 Label/constants/outline_size = 6

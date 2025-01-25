@@ -13,14 +13,18 @@ const NORMAL_DISTRIBUTION_MULTIPLIER = 20
 var rng = RandomNumberGenerator.new()
 
 
+@onready var points_holder: Node2D = $Points
 @onready var points: Array[Node] = $Points.get_children()
 @onready var linear_regression: Line2D = $LinearRegression
 @onready var adjuster: Draggable = $Adjuster
 @onready var adjust_base: ColorRect = $Interactibles/Adjust/Base
 @onready var equation: Label = $Equation
+@onready var error_toggle: CheckButton = $ErrorToggle
 
 
 func _ready() -> void:
+	toggle_error()
+	error_toggle.pressed.connect(toggle_error)
 	$Buttons/Generate.pressed.connect(generate_points)
 	
 	var adjust: GraphBase = $Interactibles/Adjust
@@ -100,3 +104,10 @@ func update_points(a: float, b: float) -> void:
 	
 	for point: Point in points:
 		point.update_dif(point.position[1] + a * point.position[0] + b, point.position[0] >= min_x and point.position[0] <= max_x)
+
+
+## Updates visibility of points and error gradient
+func toggle_error() -> void:
+	var val = error_toggle.button_pressed
+	points_holder.visible = val
+	adjust_base.material.set_shader_parameter("on", val)

@@ -9,6 +9,7 @@ uniform float minB = 0.25;
 uniform float maxB = 0.75;
 uniform vec2 points[10];
 uniform float maxError = 10000.0;
+uniform bool on;
 
 const float guidePoints[3] = {0.1, 0.4, 0.7};
 uniform float guideTolerance = 0.008;
@@ -33,5 +34,5 @@ void fragment() {
 	for (int i = 0; i < 10; i++) {
 		e += pow(points[i][1] + a * points[i][0] + b, 2);
 	}
-	COLOR = sample_grad(min(e / maxError, 1.0));
+	if (on) COLOR = sample_grad(min(e / maxError, 1.0));
 }
