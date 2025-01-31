@@ -28,11 +28,11 @@ vec4 sample_grad(float pos) {
 
 void fragment() {
 	float a = minA + (maxA - minA) * UV.x;
-	float b = (maxB + (minB - maxB) * UV.y) * 500.0;
+	float b = 1.0 - minB - (maxB - minB) * UV.y;
 	
 	float e = 0.0;
 	for (int i = 0; i < 10; i++) {
-		e += pow(points[i][1] + a * points[i][0] + b, 2);
+		e += pow(-points[i][1] + a * points[i][0] + b, 2);
 	}
 	if (on) COLOR = sample_grad(min(e / maxError, 1.0));
 }

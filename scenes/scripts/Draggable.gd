@@ -2,6 +2,9 @@ extends Area2D
 class_name Draggable
 
 
+signal changed_position
+
+
 const LERP_WEIGHT = 0.1
 const DEFAULT_SCALE = Vector2(0.8, 0.8)
 const DRAG_SCALE = Vector2(1.0, 1.0)
@@ -33,6 +36,7 @@ func _physics_process(delta: float) -> void:
 		if limited:
 			global_position[0] = clamp(global_position[0], limit_origin[0], limit_origin[0] + limit_size[0])
 			global_position[1] = clamp(global_position[1], limit_origin[1], limit_origin[1] + limit_size[1])
+		changed_position.emit()
 
 
 func hover() -> void:

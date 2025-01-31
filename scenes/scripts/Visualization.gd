@@ -7,7 +7,8 @@ const MODELS = [
 
 const STD = 0.5
 const NORMAL_DISTRIBUTION_MULTIPLIER = 20
-const PLOT_RESOLUTION = 100
+const PLOT_RESOLUTION = 50
+const PLOT_SIZE = 500.0
 
 
 var model
@@ -30,15 +31,17 @@ func _ready() -> void:
 	toggle_error()
 	error_toggle.pressed.connect(toggle_error)
 	$Buttons/Generate.pressed.connect(generate_points)
+	adjuster.changed_position.connect(update_graph)
 	
 	model_selector.clear()
 	for model in MODELS:
 		model_selector.add_item(model["name"])
 	model_selector.selected = 0
-	model = MODELS[0]["script"]
+	model = MODELS[0]["script"].new()
 	
 	# Initialize model
 	
+	update_graph()
 	var limits = model.get_limits()
 	adjust_graph.min_down = limits[0]
 	adjust_graph.max_down = limits[1]
@@ -49,73 +52,35 @@ func _ready() -> void:
 	generate_points()
 
 
-func _physics_process(delta: float) -> void:
-	model.set_parameters((adjuster.position[0] - adjuster.limit_origin[0]) / adjuster.limit_size[0],
-							-(adjuster.position[1] - adjuster.limit_origin[1]) / adjuster.limit_size[1])
+## Updates visualization of the graph
+## TODO: Allow for multiple line segments
+func update_graph() -> void:
+	var baked_line = model.set_parameters((adjuster.position[0] - adjuster.limit_origin[0]) / adjuster.limit_size[0],
+							1.0 - (adjuster.position[1] - adjuster.limit_origin[1]) / adjuster.limit_size[1],
+							PLOT_RESOLUTION, PLOT_SIZE)
 	
 	plot.clear_points()
+	plot.points = baked_line[-1]
 	
-	var limits = get_limits(a, b)
-	for limit in limits:
-		linear_regression.add_point(limit)
-	update_points(a, b)
+	equation.text = model.get_equation()
 	
-	equation.text = "Y = %.2fX + %.2f" % [a, b / 500]
+	update_points()
 
 
 func generate_points():
-	var a = MIN_A + (MAX_A - MIN_A) * randf()
-	var b = (MIN_B + (MAX_B - MIN_B) * randf()) * 500
+	var point_positions = model.generate_points(len(points))
+	adjust_base.material.set_shader_parameter("points", point_positions)
+	for i in range(len(points)):
+		points[i].position = PLOT_SIZE * Vector2(point_positions[i][0], -point_positions[i][1])
 	
-	
-	var min_max_x = get_min_max_x(a, b)
-	var min_x = min_max_x[0]
-	var max_x = min_max_x[1] 
-	
-	var point_positions: Array[Vector2] = []
-	for point in points:
-		var x = randf_range(min_x, max_x)
-		point.position = Vector2(x, -a * x - b + rng.randfn(0.0, STD) * NORMAL_DISTRIBUTION_MULTIPLIER)
-		point_positions.append(point.position)
+	update_points()
 	adjust_base.material.set_shader_parameter("points", point_positions)
 
 
-## Given a and b, returns the points that match with the edges of graph
-func get_limits(a: float, b: float) -> Array[Vector2]:
-	var limits: Array[Vector2] = []
-	var x_limits = [50, 450]
-	var y_limits = [50, 450]
-	for x in x_limits:
-		var y = a * x + b 
-		if y >= y_limits[0] and y <= y_limits[1]:
-			limits.append(Vector2(x, -y))
-	if a != 0:
-		for y in y_limits:
-			var x = (y - b) / a
-			if x >= x_limits[0] and x <= x_limits[1]:
-				limits.append(Vector2(x, -y))
-	return limits
-
-
-## Returns min and max x in line
-func get_min_max_x(a: float, b: float) -> Array[float]:
-	var limits = get_limits(a, b)
-	var min_x = limits[0][0]
-	var max_x = limits[0][0]
-	for i in range(1, len(limits)):
-		min_x = min(min_x, limits[i][0])
-		max_x = max(max_x, limits[i][0])
-	return [min_x, max_x]
-
-
 ## Updates visualization of points
-func update_points(a: float, b: float) -> void:
-	var min_max_x = get_min_max_x(a, b)
-	var min_x = min_max_x[0]
-	var max_x = min_max_x[1] 
-	
+func update_points() -> void:
 	for point: Point in points:
-		point.update_dif(point.position[1] + a * point.position[0] + b, point.position[0] >= min_x and point.position[0] <= max_x)
+		point.update_dif(point.position[1] + model.predict(point.position[0] / PLOT_SIZE) * PLOT_SIZE, point.position[0] >= model.effective_x_limits[0][0] * PLOT_SIZE and point.position[0] <= model.effective_x_limits[0][1] * PLOT_SIZE)
 
 
 ## Updates visibility of points and error gradient
