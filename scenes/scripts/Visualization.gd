@@ -2,7 +2,8 @@ extends Control
 
 
 const MODELS = [
-	{"name": "Linear Regression", "script": preload("res://scenes/scripts/models/LinearRegression.gd")}
+	{"name": "Linear Regression", "script": preload("res://scenes/scripts/models/LinearRegression.gd")},
+	{"name": "Logistic Regression", "script": preload("res://scenes/scripts/models/LogisticRegression.gd")}
 ]
 
 const STD = 0.5
@@ -33,22 +34,32 @@ func _ready() -> void:
 	$Buttons/Generate.pressed.connect(generate_points)
 	adjuster.changed_position.connect(update_graph)
 	
+	# Initialize model selector
 	model_selector.clear()
 	for model in MODELS:
 		model_selector.add_item(model["name"])
 	model_selector.selected = 0
-	model = MODELS[0]["script"].new()
+	model_selector.item_selected.connect(update_model)
+	
+	update_model(0)
+	
+	randomize()
+
+
+## Updates model based on selection
+func update_model(index: int) -> void:
+	model = MODELS[index]["script"].new()
 	
 	# Initialize model
-	
 	update_graph()
 	var limits = model.get_limits()
 	adjust_graph.min_down = limits[0]
 	adjust_graph.max_down = limits[1]
 	adjust_graph.min_left = limits[2]
 	adjust_graph.max_left = limits[3]
+	adjust_base.material.set_shader_parameter("limits", limits)
+	adjust_base.material.set_shader_parameter("model", model.get_shader())
 	
-	randomize()
 	generate_points()
 
 
