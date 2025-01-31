@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://rfro56od1488"]
 
-[ext_resource type="Script" path="res://scenes/LinearRegression/scripts/GraphBase.gd" id="1_7uqbe"]
+[ext_resource type="Script" path="res://scenes/scripts/GraphBase.gd" id="1_7uqbe"]
 [ext_resource type="Theme" uid="uid://lydeqvm8e8ih" path="res://resources/themes/main.tres" id="2_vp3df"]
 
 [node name="GraphBase" type="Control"]

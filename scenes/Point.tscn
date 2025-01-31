@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://63jewjgu007l"]
 
 [ext_resource type="Texture2D" uid="uid://c6tebqdji2apn" path="res://resources/sprites/point.png" id="1_p831m"]
-[ext_resource type="Script" path="res://scenes/LinearRegression/scripts/Point.gd" id="2_qyo78"]
+[ext_resource type="Script" path="res://scenes/scripts/Point.gd" id="2_qyo78"]
 
 [sub_resource type="Gradient" id="Gradient_wxgv8"]
 interpolation_color_space = 2

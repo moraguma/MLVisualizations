@@ -1,47 +1,59 @@
 extends Control
 
 
-const MIN_A = -1.0
-const MAX_A = 1.0
-const MIN_B = 0.25
-const MAX_B = 0.75
+const MODELS = [
+	{"name": "Linear Regression", "script": preload("res://scenes/scripts/models/LinearRegression.gd")}
+]
 
 const STD = 0.5
 const NORMAL_DISTRIBUTION_MULTIPLIER = 20
+const PLOT_RESOLUTION = 100
 
 
+var model
 var rng = RandomNumberGenerator.new()
 
 
 @onready var points_holder: Node2D = $Points
 @onready var points: Array[Node] = $Points.get_children()
-@onready var linear_regression: Line2D = $LinearRegression
+@onready var plot: Line2D = $Plot
 @onready var adjuster: Draggable = $Adjuster
+@onready var adjust_graph: GraphBase = $Interactibles/Adjust
 @onready var adjust_base: ColorRect = $Interactibles/Adjust/Base
 @onready var equation: Label = $Equation
 @onready var error_toggle: CheckButton = $ErrorToggle
+@onready var model_selector: OptionButton = $Buttons/Models
 
 
 func _ready() -> void:
+	# Setup
 	toggle_error()
 	error_toggle.pressed.connect(toggle_error)
 	$Buttons/Generate.pressed.connect(generate_points)
 	
-	var adjust: GraphBase = $Interactibles/Adjust
-	adjust.min_down = MIN_A
-	adjust.max_down = MAX_A
-	adjust.min_left = MIN_B
-	adjust.max_left = MAX_B
+	model_selector.clear()
+	for model in MODELS:
+		model_selector.add_item(model["name"])
+	model_selector.selected = 0
+	model = MODELS[0]["script"]
+	
+	# Initialize model
+	
+	var limits = model.get_limits()
+	adjust_graph.min_down = limits[0]
+	adjust_graph.max_down = limits[1]
+	adjust_graph.min_left = limits[2]
+	adjust_graph.max_left = limits[3]
 	
 	randomize()
 	generate_points()
 
 
 func _physics_process(delta: float) -> void:
-	var a = MIN_A + (MAX_A - MIN_A) * (adjuster.position[0] - adjuster.limit_origin[0]) / adjuster.limit_size[0]
-	var b = (MAX_B - (MAX_B - MIN_B) * (adjuster.position[1] - adjuster.limit_origin[1]) / adjuster.limit_size[1]) * 500
+	model.set_parameters((adjuster.position[0] - adjuster.limit_origin[0]) / adjuster.limit_size[0],
+							-(adjuster.position[1] - adjuster.limit_origin[1]) / adjuster.limit_size[1])
 	
-	linear_regression.clear_points()
+	plot.clear_points()
 	
 	var limits = get_limits(a, b)
 	for limit in limits:

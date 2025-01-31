@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://biomultdfiwkt"]
 
-[ext_resource type="Script" path="res://scenes/LinearRegression/scripts/Draggable.gd" id="1_ny7xm"]
+[ext_resource type="Script" path="res://scenes/scripts/Draggable.gd" id="1_ny7xm"]
 
 [node name="Draggable" type="Area2D"]
 script = ExtResource("1_ny7xm")

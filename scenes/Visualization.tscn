@@ -1,11 +1,11 @@
 [gd_scene load_steps=12 format=3 uid="uid://du537llw752ii"]
 
-[ext_resource type="PackedScene" uid="uid://biomultdfiwkt" path="res://scenes/LinearRegression/Draggable.tscn" id="1_m3xpi"]
-[ext_resource type="PackedScene" uid="uid://rfro56od1488" path="res://scenes/LinearRegression/GraphBase.tscn" id="1_oj5lf"]
-[ext_resource type="Script" path="res://scenes/LinearRegression/scripts/LinearRegression.gd" id="1_ubjel"]
-[ext_resource type="Shader" path="res://resources/shaders/ErrorMap.gdshader" id="3_blx4n"]
+[ext_resource type="PackedScene" uid="uid://biomultdfiwkt" path="res://scenes/Draggable.tscn" id="1_m3xpi"]
+[ext_resource type="PackedScene" uid="uid://rfro56od1488" path="res://scenes/GraphBase.tscn" id="1_oj5lf"]
+[ext_resource type="Script" path="res://scenes/scripts/Visualization.gd" id="1_ubjel"]
+[ext_resource type="Shader" path="res://resources/shaders/LinearRegression.gdshader" id="3_blx4n"]
 [ext_resource type="Texture2D" uid="uid://bwyt4343d8gr3" path="res://resources/sprites/Cross.png" id="3_n6lvd"]
-[ext_resource type="PackedScene" uid="uid://63jewjgu007l" path="res://scenes/LinearRegression/Point.tscn" id="4_oqeib"]
+[ext_resource type="PackedScene" uid="uid://63jewjgu007l" path="res://scenes/Point.tscn" id="4_oqeib"]
 [ext_resource type="Theme" uid="uid://lydeqvm8e8ih" path="res://resources/themes/main.tres" id="6_8t06b"]
 
 [sub_resource type="Gradient" id="Gradient_q86k7"]
@@ -129,7 +129,7 @@ position = Vector2(385, 690)
 
 [node name="Point10" parent="Points" instance=ExtResource("4_oqeib")]
 
-[node name="LinearRegression" type="Line2D" parent="."]
+[node name="Plot" type="Line2D" parent="."]
 position = Vector2(385, 690)
 default_color = Color(0.497538, 0.177624, 0.716418, 1)
 begin_cap_mode = 2
@@ -154,7 +154,16 @@ layout_mode = 0
 offset_top = 900.0
 offset_right = 1920.0
 offset_bottom = 992.0
+theme_override_constants/separation = 32
 alignment = 1
+
+[node name="Models" type="OptionButton" parent="Buttons"]
+layout_mode = 2
+theme = ExtResource("6_8t06b")
+selected = 0
+fit_to_longest_item = false
+item_count = 1
+popup/item_0/text = "Linear Regression"
 
 [node name="Generate" type="Button" parent="Buttons"]
 custom_minimum_size = Vector2(256, 0)
